@@ -1,0 +1,57 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-color: #FAD7A0;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    margin-bottom: 60px;
+}
+nav {
+    background-color: #FAD7A0;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+header {
+    background-color: #FAD7A0;
+}
+
+#topBtn {
+    height: 50px;
+    width: 70px;
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    border: none;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 600px) {
+    #rightsReserved {
+        font-size: smaller;
+    }
+}
+
+#tableInFooter {
+    td{
+    width: 200px;
+    }
+}

@@ -1,0 +1,89 @@
+﻿@page
+@model Library.Pages.ReaderInfoForAdminModel
+@{
+    byte[] a;
+}
+
+@if ((!HttpContext.Session.TryGetValue("AdminId", out a)) && (!HttpContext.Session.TryGetValue("SystemAdminId", out a)))
+{
+    Response.Redirect("/Index");
+}
+
+<head>
+    <title>Информация за читател</title>
+</head>
+
+<body>
+
+    <h1 style="text-align:center">Информация за читател</h1>
+
+    @if (Model.errorMessage.Length > 0)
+    {
+        <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+            <strong>@Model.errorMessage</strong>
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>
+    }
+    @if (Model.successMessage.Length > 0)
+    {
+        <div class="row mb-3">
+            <div class="col-sm-9">
+                <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                    <strong>@Model.successMessage</strong>
+                </div>
+            </div>
+        </div>
+    }
+
+    <form method="post" style="margin-bottom:750px;">
+        <input type="hidden" name="id" value="@ReaderInfoForAdminModel.readerInfo.Id" />
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Име:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="name" value='@ReaderInfoForAdminModel.readerInfo.Name' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Фамилия:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="lastName" value='@ReaderInfoForAdminModel.readerInfo.LastName' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Имейл:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="email" value='@ReaderInfoForAdminModel.readerInfo.Email' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Телефон:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="phone" value='@ReaderInfoForAdminModel.readerInfo.Telephone' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Дата на създаване:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@ReaderInfoForAdminModel.readerInfo.DateOfCreation</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="offset-sm-3 col-sm-3 d-grid" style="margin-top:10px;">
+                <button type="submit" class="btn btn-primary">ПРИЛОЖИ</button>
+            </div>
+            <div class="col-sm-3 d-grid" style="margin-top:10px;">
+                <a class="btn btn-outline-primary" href="/AdminReaders" role="button">ВЪРНИ СЕ НАЗАД</a>
+            </div>
+            <div class="col-sm-3 d-grid" style="position:center;margin-top:10px;">
+                <a class="btn btn-danger btn-sm" href="/AdminDeleteReader">ИЗТРИЙ ПРОФИЛА</a>
+            </div>
+        </div>
+
+    </form>
+</body>

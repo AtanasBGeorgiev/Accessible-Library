@@ -1,0 +1,107 @@
+﻿@page
+@model Library.Pages.DeleteBookModel
+@{
+    byte[] a;
+}
+
+@if (!HttpContext.Session.TryGetValue("LibraryId", out a))
+{
+    Response.Redirect("/Index");
+}
+
+<head>
+    <title>Изтрий книга</title>
+</head>
+
+<body>
+    <h1 style="text-align:center">Отчисли книга от библиотеката</h1>
+
+    @if (Model.errorMessage.Length > 0)
+    {
+        <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+            <strong>@Model.errorMessage</strong>
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>
+    }
+    @if (Model.successMessage.Length > 0)
+    {
+        <div class="row mb-3">
+            <div class="col-sm-9">
+                <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                    <strong>@Model.successMessage</strong>
+                    <a class='btn btn-primary btn-sm' href='/LibraryBooks'>ИЗЛЕЗ ОТ ТУК</a>                  
+                </div>
+            </div>
+        </div>
+    }
+
+    <form method="post" style="margin-bottom:550px;">
+        <input type="hidden" name="id" value="@DeleteBookModel.bookInfo.Id" />
+        
+        <br />
+        
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Инвентарен номер:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@DeleteBookModel.bookInfo.InventoryNum</label>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Заглавие:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label" name="title" value='@DeleteBookModel.bookInfo.Title'>@DeleteBookModel.bookInfo.Title</label>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Автор:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label" name="autor" value='@DeleteBookModel.bookInfo.Author'>@DeleteBookModel.bookInfo.Author</label>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Година на издаване:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label" name="year" value='@DeleteBookModel.bookInfo.Year'>@DeleteBookModel.bookInfo.Year</label>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Цена:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label" name="price" value='@DeleteBookModel.bookInfo.Price'>@DeleteBookModel.bookInfo.Price</></label>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Категория:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label" name="category" value='@DeleteBookModel.bookInfo.Category'>@DeleteBookModel.bookInfo.Category</></label>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Сигнатура:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label" name="signature" value='@DeleteBookModel.bookInfo.Signature'>@DeleteBookModel.bookInfo.Signature</label>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Проведена инвентаризация:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label" name="inventory" value='@DeleteBookModel.bookInfo.Inventory'>@DeleteBookModel.bookInfo.Inventory</label>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Отчисляване-номер и дата:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="removal" value='' />
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="offset-sm-3 col-sm-3 d-grid">
+                <button type="submit" class="btn btn-primary">ОТЧИСЛИ</button>
+            </div>
+            <div class="col-sm-3 d-grid">           
+                    <a class="btn btn-outline-primary" href="/LibraryBooks" role="button">ОТМЕНИ</a>                 
+            </div>
+        </div>
+    </form>
+</body>

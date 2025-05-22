@@ -1,0 +1,77 @@
+﻿@page
+@model Library.Pages.LoginReaderModel
+@{
+}
+
+<head>
+    <title>Влез в профила си</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
+            <div class="container">
+                <div style="text-align:left;margin-right:30px;">
+                    <img id="logo" class="image-class" src="/Logo.png" width="50" />
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation" style="text-align:right;margin:20px 20px 50px 10px;">
+                        <img id="logo" class="image-class" src="/NavMenu.png" width="30" />
+                    </button>
+                </div>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between position-absolute top-0 end-0">
+                    <ul class="navbar-nav flex-grow-1" style="font-size:larger">
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/Index">Начало</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/LoginLibrary">Вход/Регистрация</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/Contacts">Контакти</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <h1 style="text-align:center">Влез в профила си на читател</h1>
+
+    @if (Model.errorMessage.Length > 0)
+    {
+        <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+            <strong>@Model.errorMessage</strong>
+        </div>
+    }
+
+    <form method="post">
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Имейл:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="email" value='' />
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Парола:</label>
+            <div class="col-sm-6">
+                <input type="password" class="form-control" name="password" value="" id="myInput" /><br><br>
+                <input type="checkbox" onclick="myFunction()" />Покажи паролата
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="offset-sm-3 col-sm-3 d-grid">
+                <button type="submit" class="btn btn-primary">ПРОВЕРИ</button>
+            </div>
+            <div class="col-sm-3 d-grid">
+                <a class="btn btn-outline-primary" href="/Index" role="button">ОТМЕНИ/ВЪРНИ СЕ НАЗАД   </a>
+            </div>
+        </div>
+    </form>
+
+    <div style="text-align:center;margin-bottom:650px;">
+        <a class='btn btn-primary btn-lg' href="/ForgottenPassword" style="background-color:red;margin-top:10px;">СМЕНИ ПАРОЛА</a>
+    </div>
+</body>

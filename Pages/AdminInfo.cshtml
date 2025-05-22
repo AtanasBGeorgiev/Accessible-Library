@@ -1,0 +1,102 @@
+﻿@page
+@model Library.Pages.AdminInfoModel
+@{
+    byte[] a;
+}
+
+@if (!HttpContext.Session.TryGetValue("SystemAdminId", out a))
+{
+    Response.Redirect("/Index");
+}
+
+<head>
+    <title>Информация за администратор</title>
+</head>
+
+<body>
+    <h1 style="text-align:center">Информация за администратор</h1>
+
+    @if (Model.errorMessage.Length > 0)
+    {
+        <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+            <strong>@Model.errorMessage</strong>
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>
+    }
+    @if (Model.successMessage.Length > 0)
+    {
+        <div class="row mb-3">
+            <div class="col-sm-9">
+                <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                    <strong>@Model.successMessage</strong>
+                </div>
+            </div>
+        </div>
+    }
+
+    <form method="post" style="margin-bottom:650px;">
+        <input type="hidden" name="id" value="@AdminInfoModel.adminInfo.Id" />
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Име:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="name" value='@AdminInfoModel.adminInfo.Name' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Презиме:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="surname" value='@AdminInfoModel.adminInfo.Surname' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Фамилия:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="lastName" value='@AdminInfoModel.adminInfo.LastName' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Имейл:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="email" value='@AdminInfoModel.adminInfo.Email' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Телефон:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="phone" value='@AdminInfoModel.adminInfo.Telephone' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Потребителско име:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="userName" value='@AdminInfoModel.adminInfo.UserName' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Дата на заявката:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@AdminInfoModel.adminInfo.DateOfCreation</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="offset-sm-3 col-sm-3 d-grid" style="margin-top:10px;">
+                <button type="submit" class="btn btn-primary">ПОТВЪРДИ</button>
+            </div>
+            <div class="col-sm-3 d-grid"style="margin-top:10px;">
+                <a class="btn btn-outline-primary" href="/Admins" role="button">ВЪРНИ СЕ НАЗАД</a>
+            </div>
+            <div class="col-sm-3 d-grid" style="position:center;margin-top:10px;">
+                <a class="btn btn-danger btn-sm" href="/DeleteAdmin">ИЗТРИЙ ПРОФИЛА</a>
+            </div>
+        </div>
+
+    </form>
+</body>

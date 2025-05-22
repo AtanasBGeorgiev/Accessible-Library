@@ -1,0 +1,93 @@
+﻿@page
+@model Library.Pages.ReaderInfoForLibraryhModel
+@{
+    byte[] a;
+}
+
+@if ((!HttpContext.Session.TryGetValue("LibraryId", out a)))
+{
+    Response.Redirect("/Index");
+}
+
+<head>
+    <title>Информация за читател</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  mb-3">
+            <div class="container">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <h1 style="text-align:center">Информация за читателя,който е взел тази книга</h1>
+
+    @if (Model.errorMessage.Length > 0)
+    {
+        <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+            <strong>@Model.errorMessage</strong>
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>
+    }
+    <form method="get" style="margin-bottom:730px">
+        <input type="hidden" name="id"  value="" />
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Име:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@ReaderInfoForLibraryhModel.readerInfo.Name</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Фамилия:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@ReaderInfoForLibraryhModel.readerInfo.LastName</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Имейл:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@ReaderInfoForLibraryhModel.readerInfo.Email</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Телефон:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@ReaderInfoForLibraryhModel.readerInfo.Telephone</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Дата на взимане на книгата:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@ReaderInfoForLibraryhModel.dateOfTaking</label>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+            <div class="col-sm-3 d-grid" style="margin-top:10px;">
+                <a class="btn btn-outline-primary" href="/LibraryBooks" role="button">ВЪРНИ СЕ НАЗАД</a>
+            </div>
+        </div>
+    </form>
+
+   @* <form method="post" style="margin-bottom:650px;">
+        <p style="text-align:center">Изпрати автоматично съобщение до читателя.Ако не са минали 30 дни от датата на взимане ще получи съобщение с крайната дата за връщане на книгата.В противен случай ще бъде уведомен,че трябва най-скоро да върне книгата.</p>
+        <div class="row mb-3">
+            <div class="offset-sm-3 col-sm-3 d-grid">
+                <button type="submit" class="btn btn-primary">ИЗПРАТИ</button>
+            </div>
+            <div class="col-sm-3 d-grid">
+                <a style="text-align:center" class="btn btn-outline-primary" href="/LibraryBooks" role="button">ВЪРНИ СЕ НАЗАД</a>
+            </div>
+        </div>
+    </form>*@
+</body>
+
+

@@ -1,0 +1,81 @@
+﻿@page
+@model Library.Pages.AdminReaderInfoForBookModel
+@{
+    byte[] a;
+}
+
+@if ((!HttpContext.Session.TryGetValue("AdminId", out a)) && (!HttpContext.Session.TryGetValue("SystemAdminId", out a)))
+{
+    Response.Redirect("/Index");
+}
+
+<head>
+    <title>Информация за читател</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  mb-3">
+            <div class="container">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <h1 style="text-align:center">Информация за читателя,който е взел тази книга</h1>
+
+    @if (Model.errorMessage.Length > 0)
+    {
+        <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+            <strong>@Model.errorMessage</strong>
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>
+    }
+    <form method="post" style="margin-bottom:700px;">
+        <input type="hidden" name="id"  value="" />
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Име:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@AdminReaderInfoForBookModel.readerInfo.Name</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Фамилия:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@AdminReaderInfoForBookModel.readerInfo.LastName</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Имейл:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@AdminReaderInfoForBookModel.readerInfo.Email</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Телефон:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@AdminReaderInfoForBookModel.readerInfo.Telephone</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Дата на взимане на книгата:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@AdminReaderInfoForBookModel.dateOfTaking</label>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;">
+            <div class="col-sm-3 d-grid" style="margin-top:10px;">
+                <a class="btn btn-outline-primary" href="/AdminBooksOfLibrary" role="button">ВЪРНИ СЕ НАЗАД</a>
+            </div>
+        </div>
+    </form>
+</body>
+
+

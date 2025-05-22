@@ -1,0 +1,165 @@
+﻿@page
+@model Library.Pages.AdminBooksOfLibraryModel
+@{
+    byte[] a;
+}
+
+@if ((!HttpContext.Session.TryGetValue("AdminId", out a)) && (!HttpContext.Session.TryGetValue("SystemAdminId", out a)))
+{
+    Response.Redirect("/Index");
+}
+
+<head>
+    <title>Книги</title>
+
+    <style>
+        @@media screen and (max-width: 600px) {
+            #margin {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
+            <div class="container">
+                <div style="text-align:left;margin-right:30px;">
+                    <img id="logo" class="image-class" src="/Logo.png" width="50" />
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation" style="text-align:right;margin:20px 20px 50px 10px;">
+                        <img id="logo" class="image-class" src="/NavMenu.png" width="30" />
+                    </button>
+                </div>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between position-absolute top-0 end-0">
+                    <ul class="navbar-nav flex-grow-1" style="font-size:larger">
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/AdminBooksOfLibrary">Книгите на библиотеката</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/DeductedBooksAdmin">Отчислени книги</a>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/AdminAddBook">Добави книга</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/AdminReturnBookStep1">Върни книга</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    @if (Model.specialMessage.Length > 0)
+    {
+        <div class='alert alert-warning alert-dismissible fade show' role='alert' style="background-color:red;color:white;text-align:center;">
+            <strong style="font-size:30px;">@Model.specialMessage</strong>
+        </div>
+    }
+
+    <h1 style="text-align:center;">Книгите на избраната библиотека</h1>
+
+    <h4 style="text-align:center;color:red">*За да се визуализират направените промени за дадена книга,трябва отново да се натисне бутона ПРОВЕРИ:</h4>
+    <h5 style="text-align:center;color:red">*Можеш да филтрираш книгите по:</h5>
+
+    @if (Model.errorMessage.Length > 0)
+    {
+        <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+            <strong>@Model.errorMessage</strong>
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>
+    }
+
+    <form method="post" style="margin-bottom:700px;">
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Дали е взета от читател:</label>
+            <div class="col-sm-6">
+                <input type="radio" name="isAvaiable" value="ДА" checked />НЕ
+                <input type="radio" name="isAvaiable" value="НЕ" />Взети
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Взети преди повече от 30 дни:</label>
+            <div class="col-sm-6">
+                <input type="radio" name="days" value="НЕ" checked />НЕ
+                <input type="radio" name="days" value="ДА" />30+ дни
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Покажи само наличните книги:</label>
+            <div class="col-sm-6">
+                <input type="radio" name="showOnlyAvaiable" value="НЕ" checked />НЕ
+                <input type="radio" name="showOnlyAvaiable" value="ДА" />ДА
+            </div>
+        </div>
+        <div class="row mb-3" style="margin-top:50px;color:green;">
+            <p id="margin">Определена категория:</p>
+            <select class="position-absolute start-50 translate-middle" name="category" style="width: 150px; text-align: center;">
+                <option value=""></option>
+                <option value="Литература">Литература</option>
+                <option value="Детска литература">Детска литература</option>
+                <option value="Исторически">Исторически</option>
+                <option value="Архитектура и строителство">Архитектура и строителство</option>
+                <option value="Образование">Образование</option>
+                <option value="Военно дело">Военно дело</option>
+                <option value="Информационни тхнологии">Информационни технологии</option>
+                <option value="Селско стопанство">Селско стопанство</option>
+                <option value="Биография">Биография</option>
+                <option value="Изкуство">Изкуство</option>
+                <option value="Икономика">Икономика</option>
+                <option value="Фентъзи">Фентъзи</option>
+                <option value="Други">Други</option>
+            </select>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Инвентарен номер</th>
+                    <th>Заглавие</th>
+                    <th>Автор</th>
+                    <th>Година</th>
+                    <th>Налична ли е</th>
+                    <th>Дата на създаване</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Library.Pages.AdminBooksOfLibraryModel.listBooks)
+                {
+                    <tr>
+                        <td>@book.InventoryNum</td>
+                        <td>@book.Title</td>
+                        <td>@book.Author</td>
+                        <td>@book.Year</td>
+                        <td>@book.IsAvaiable</td>
+                        <td>@book.DateOfCreation</td>
+                        <td>
+                            @if (book.IsAvaiable == "НЕ")
+                            {
+                                <a class="btn btn-primary btn-sm" href="/AdminBookInfo?id=@book.Id">Към книгата</a>
+                                <a class="btn btn-primary btn-info btn-sm" href="/AdminReaderInfoForBook?id=@book.Id" style="background-color:forestgreen;color:white;margin-top:5px;">Инфо. за читателя</a>
+                            }
+                            else
+                            {
+                                <a class="btn btn-primary btn-sm" href="/AdminBookInfo?id=@book.Id">Към книгата</a>
+                                <a class="btn btn-danger btn-sm" href="/AdminDeleteBook?id=@book.Id" style="margin-top:5px;">Отчисли книгата</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="row" style="margin-top:10px;">
+            <div class="offset-sm-3 col-sm-3 d-grid">
+                <button type="submit" class="btn btn-primary">ПРОВЕРИ</button>
+            </div>
+            <div class="col-sm-3 d-grid" style="margin-top:10px;">
+                <a class="btn btn-outline-primary" href="/AdminLibraries" role="button">ВЪРНИ СЕ НАЗАД</a>
+            </div>
+        </div>
+
+    </form>
+</body>

@@ -1,0 +1,110 @@
+﻿@page
+@model Library.Pages.DeductedBooksLibraryModel
+@{
+    byte[] a;
+}
+
+@if (!HttpContext.Session.TryGetValue("LibraryId", out a)) 
+{
+    Response.Redirect("/Index");
+}
+
+<head>
+    <title>Отчислени книги</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm mb-3">
+            <div class="container">
+                <div style="text-align:left;">
+                    <img id="logo" class="image-class" src="/Logo.png" width="50" />
+                    <button onclick="contentVisibility()" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation" style="text-align:right;margin:20px 20px 50px 10px;">
+                        <img id="logo" class="image-class" src="/NavMenu.png" width="30" />
+                    </button>
+                </div>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between position-absolute top-0 end-0">
+                    <ul class="navbar-nav flex-grow-1" style="font-size:larger">
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/MainPage">Главно меню</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/AddBook">Добави книга</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/CheckForBook">Провери за книга</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/ReturnBookStep1">Върни книга</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/LibraryBooks">Книгите на библиотеката</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/DeductedBooksLibrary">Отчислени книги</a>
+                        </li>
+                        <li>
+                            <div class="dropdown" style="margin-top:5px;">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:#FAD7A0;color:black;">
+                                    Профил
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="background-color:#FAD7A0;">
+                                    <li><a class="dropdown-item" href='/LibraryProfileInformation' style="margin-right:20px;text-align:center;">Информация за <br /> профила</a></li>
+                                    <li><a class="dropdown-item" href='/LogoutLibrary' style="background-color:red;color:white">Излез от профила</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <div id="content">
+        <h1 style="text-align:center;">Отчислени книги</h1>
+
+        @if (Model.errorMessage.Length > 0)
+        {
+            <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+                <strong>@Model.errorMessage</strong>
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>
+        }
+
+        <form method="get" style="margin-bottom:900px;">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Инвентарен номер</th>
+                        <th>Заглавие</th>
+                        <th>Автор</th>
+                        <th>Година</th>
+                        <th>Цена</th>
+                        <th>Сигнатура</th>
+                        <th>Инвентаризация</th>
+                        <th>Отчисление</th>
+                        <th>Дата на създаване</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var book in Library.Pages.DeductedBooksLibraryModel.listBooks)
+                    {
+                        <tr>
+                            <td>@book.InventoryNum</td>
+                            <td>@book.Title</td>
+                            <td>@book.Author</td>
+                            <td>@book.Year</td>
+                            <td>@book.Price</td>
+                            <td>@book.Signature</td>
+                            <td>@book.Inventory</td>
+                            <td>@book.Deduction</td>
+                            <td>@book.DateOfCreation</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+</body>

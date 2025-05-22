@@ -1,0 +1,221 @@
+﻿@page
+@model Library.Pages.BrowseLibraryModel
+@{
+    byte[] a;
+}
+
+@if (!HttpContext.Session.TryGetValue("ReaderId", out a))
+{
+    Response.Redirect("/Index");
+}
+
+<head>
+    <title>Разгледай библиотека</title>
+    <style>
+        li{
+            margin-top:5px;
+        }
+
+        @@media screen and (min-width: 600px){
+            #content{
+                margin-left:250px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
+            <div class="container">
+                <div style="text-align:left;margin-right:30px;">
+                    <img id="logo" class="image-class" src="/Logo.png" width="50" />
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation" style="text-align:right;margin:20px 20px 50px 10px;">
+                        <img id="logo" class="image-class" src="/NavMenu.png" width="30" />
+                    </button>
+                </div>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between position-absolute top-0 end-0">
+                    <ul class="navbar-nav flex-grow-1" style="font-size:larger">
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/TakenBooks">Взети книги</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/BookSearch">Намери книга</a>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/BrowseLibrary">Разгледай библиотека</a>
+                        </li>
+                        <li>
+                            <div class="dropdown" style="margin-top:5px;">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:#FAD7A0;color:black;">
+                                    Профил
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="background-color:#FAD7A0;">
+                                    <li><a class="dropdown-item" href='/ReaderProfileInformation' style="margin-right:20px;text-align:center">Информация за <br />профила</a></li>
+                                    <li><a class="dropdown-item" href='/LogoutReader' style="background-color:red;color:white">Излез от профила</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <h1 style="text-align:center;margin-top:30px;">Разгледай какви книги има в дадена библиотека</h1>
+    
+    <h5 style="text-align:center;color:#2ECC71">Избери една от регистрираните библиотеки.</h5>
+    <h5 style="text-align:center;color:#2ECC71;margin-bottom:30px;">Можеш да филтрираш по области,общини и градове/села,в които има регистрирана библиотека.</h5>
+    
+    <h5 style="text-align:center;color:red">ИНСТРУКЦИИ</h5>
+    <div id="content" style="text-align:justify;line-height: 1.6">
+        <p>
+            <ol>
+                <li>В началото в полето БИБЛИОТЕКА са изписани всички библиотеки.</li>
+                <li>След избиране на библиотека натисни бутона ПРОВЕРИ,за да се визуализират резултатите.</li>
+                <li>При прилагане на филтри НЕ избирай библиотека.</li>
+                <li>Първо натисни бутона ПРОВЕРИ и след това избери от обновения списък с библиотеките.</li>
+                <li>Всеки филтър се прилага върху следващите.</li>
+                <li>При прилагане само на филтъра за община ще се обнови списъкът с населените места и библиотеките.</li>
+                <li>При ново търсене с нови филтри изберете празно поле или желаният филтър.</li>
+                <li>При ново търсене без филтри задайте всички полета да са празни от бутона.</li>
+                <li>След това натисни бутона ПРОВЕРИ и избери от пълния списък с библиотеки.</li>
+            </ol>
+        </p>
+    </div>
+
+    @if (Model.errorMessage.Length > 0)
+    {
+        <div class='alert alert-warning alert-dismissible fade show' role='alert' style="margin:0px 50px;">
+            <strong>@Model.errorMessage</strong>
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>
+    }
+     @if (Model.successMessage.Length > 0)
+        {
+            <div class="row mb-3" style="padding-left:50px">
+                <div class="col-sm-9">
+                <div class='alert alert-success alert-dismissible fade show' role='alert' style="margin:50px 0px;">
+                        <strong>@Model.successMessage</strong>
+                    </div>
+                </div>
+            </div>
+        }
+
+    <form method="post" style="padding:50px;margin-bottom:600px;">
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Изчисти всички полетата,ако има избрани опции:</label>
+            <div class="col-sm-6">
+                <input type="checkbox" name="clear" value="ДА"/>ИЗЧИСТИ
+            </div>
+        </div>
+        <div class="row mb-3">
+            <p>Можеш да избереш дали да се покажат всички книги в една библиотека,или само наличните в момента.</p>
+            <p>Автоматично се показват всички книги,ако не маркираш квадратчето.</p>
+            <label class="col-sm-3 col-form-label">Само наличните:</label>
+            <div class="col-sm-6">
+                <input type="checkbox" name="isAvaiable" value="ДА" />САМО НАЛИЧНИТЕ
+            </div>
+        </div>
+        <div class="row mb-3" style="margin-top:50px;color:green;">
+            <p>Можеш да избереш определена <br />категория книги на библиотеката:</p>
+            <select class="position-absolute  start-50 translate-middle" name="category" style="width: 150px; text-align: center;">
+                <option value="@BrowseLibraryModel.category">@BrowseLibraryModel.category</option>
+                <option value=""></option>
+                <option value="Литература">Литература</option>
+                <option value="Детска литература">Детска литература</option>
+                <option value="Исторически">Исторически</option>
+                <option value="Архитектура и строителство">Архитектура и строителство</option>
+                <option value="Образование">Образование</option>
+                <option value="Военно дело">Военно дело</option>
+                <option value="Информационни тхнологии">Информационни технологии</option>
+                <option value="Селско стопанство">Селско стопанство</option>
+                <option value="Биография">Биография</option>
+                <option value="Изкуство">Изкуство</option>
+                <option value="Икономика">Икономика</option>
+                <option value="Фентъзи">Фентъзи</option>
+                <option value="Други">Други</option>
+            </select>
+        </div>
+
+        <p style="color:green">Филтрирай по област:<a style="color:red;margin-left:10px;">(незадължително)</a></p>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Област:</label>
+            <select class="position-absolute  start-50 translate-middle" name="district" style="width: 150px; text-align: center;">          
+                <option value="@BrowseLibraryModel.choosenDistrict">@BrowseLibraryModel.choosenDistrict</option>               
+                <option value=""></option>
+                @foreach (var district in BrowseLibraryModel.districts) 
+                {
+                    <option value="@district">@district</option>
+                }
+            </select>
+        </div>
+
+        <p style="color:green">Филтрирай по община:<a style="color:red;margin-left:10px;">(незадължително)</a></p>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Община:</label>
+            <select class="position-absolute  start-50 translate-middle" name="municipality" style="width: 150px; text-align: center;">
+                <option value="@BrowseLibraryModel.choosenMunicipality">@BrowseLibraryModel.choosenMunicipality</option>
+                <option value=""></option>
+                @foreach (var municipality in BrowseLibraryModel.municipalities) 
+                {
+                    <option value="@municipality">@municipality</option>
+                }
+            </select>
+        </div>
+
+        <p style="color:green">Филтрирай по град/село:<a style="color:red;margin-left:10px;">(незадължително)</a></p>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">град/село:</label>
+            <select class="position-absolute  start-50 translate-middle" name="cityVillage" style="width: 150px; text-align: center;">
+                <option value="@BrowseLibraryModel.choosenCity">@BrowseLibraryModel.choosenCity</option>
+                <option value=""></option>
+                @foreach (var city in BrowseLibraryModel.cities) 
+                {
+                    <option value="@city">@city</option>
+                }
+            </select>
+        </div>
+
+        <p style="color:green">Избери една от регистрираните библиотеки.</p>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Библиотека:</label>
+            <select class="position-absolute  start-50 translate-middle" name="library" style="width: 400px; text-align: center;">
+                <option value="@BrowseLibraryModel.choosenLibrary">@BrowseLibraryModel.choosenLibrary</option>
+                <option value=""></option>
+                @foreach (var library in BrowseLibraryModel.libraryNames) 
+                {
+                    <option value="@library">@library</option>
+                }
+            </select>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Заглавие</th>
+                    <th>Автор</th>
+                    <th>Година</th>
+                    <th>Налична ли е</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var book in Library.Pages.BrowseLibraryModel.books)
+                {
+                    <tr>
+                        <td>@book.Title</td>
+                        <td>@book.Author</td>
+                        <td>@book.Year</td>
+                        <td>@book.IsAvaiable</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="offset-sm-3 col-sm-3 d-grid">
+            <button type="submit" class="btn btn-primary">ПРОВЕРИ</button>
+        </div>
+    </form>
+
+</body>

@@ -1,0 +1,259 @@
+﻿@page
+@model Library.Pages.BookSearchModel
+@{
+    byte[] a;
+}
+
+@if (!HttpContext.Session.TryGetValue("ReaderId", out a))
+{
+    Response.Redirect("/Index");
+}
+
+<head>
+    <title>Намери книга</title>
+    <style>
+        @@media screen and (max-width: 600px) 
+        {
+            #cleanButton{
+                margin-top:40px;
+            }
+
+            #firstButton{
+                position: absolute;
+                left: 80px;
+                width: 60%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
+            <div class="container">
+                <div style="text-align:left;margin-right:30px;">
+                    <img id="logo" class="image-class" src="/Logo.png" width="50" />
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation" style="text-align:right;margin:20px 20px 50px 10px;">
+                        <img id="logo" class="image-class" src="/NavMenu.png" width="30" />
+                    </button>
+                </div>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between position-absolute top-0 end-0">
+                    <ul class="navbar-nav flex-grow-1" style="font-size:larger">
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/TakenBooks">Взети книги</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/BookSearch">Намери книга</a>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/BrowseLibrary">Разгледай библиотека</a>
+                        </li>
+                        <li>
+                            <div class="dropdown" style="margin-top:5px;">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:#FAD7A0;color:black;">
+                                    Профил
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="background-color:#FAD7A0;">
+                                    <li><a class="dropdown-item" href='/ReaderProfileInformation' style="margin-right:20px;text-align:center">Информация за <br />профила</a></li>
+                                    <li><a class="dropdown-item" href='/LogoutReader' style="background-color:red;color:white">Излез от профила</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <h1 style="text-align:center;margin-top:30px;margin-bottom:20px;">Намери книга</h1>
+
+    <h4 style="text-align:center;color:red;">За да получиш резултат,трябва да попълниш поне едно от първите пет полета.Всяко от следващите полета служи като допълнителен филтър.</h4>
+    
+    @if (Model.errorMessage.Length > 0)
+    {
+        <div class='alert alert-warning alert-dismissible fade show' role='alert' style="margin-left:50px;margin-right:50px;">
+             <strong>@Model.errorMessage</strong>
+             <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+         </div>
+    }
+    @if (Model.successMessage.Length > 0)
+    {
+        <div class="row mb-3" style="padding-left:50px;">
+            <div class="col-sm-9">
+                <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                    <strong>@Model.successMessage</strong>
+                </div>
+            </div>
+        </div>
+    }
+
+    <form method="post" style="margin-bottom:600px;">
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Заглавие на книга:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="title" value='""' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Автор:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="author" value='' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Категория:</label>
+            <select class="position-absolute  start-50 translate-middle" name="category" style="width: 150px; text-align: center;">
+                <option value=""></option>
+                <option value="Литература">Литература</option>
+                <option value="Детска литература">Детска литература</option>
+                <option value="Исторически">Исторически</option>
+                <option value="Архитектура и строителство">Архитектура и строителство</option>
+                <option value="Образование">Образование</option>
+                <option value="Военно дело">Военно дело</option>
+                <option value="Информационни тхнологии">Информационни технологии</option>
+                <option value="Селско стопанство">Селско стопанство</option>
+                <option value="Биография">Биография</option>
+                <option value="Изкуство">Изкуство</option>
+                <option value="Икономика">Икономика</option>
+                <option value="Фентъзи">Фентъзи</option>
+                <option value="Други">Други</option>
+            </select>
+        </div>
+
+        <p style="color:green">Можеш да избереш период на издаване на книгата:</p>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Начало:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="begin" value='' />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Край:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="end" value='' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Област:</label>
+            <select class="position-absolute  start-50 translate-middle" name="district" style="width: 150px; text-align: center;">
+                <option value="Без филтриране">Без филтриране</option>
+                <option value="София-град">София-град</option>
+                <option value="Пловдив">Пловдив</option>
+                <option value="Варна">Варна</option>
+                <option value="Бургас">Бургас</option>
+                <option value="Стара Загора">Стара Загора</option>
+                <option value="Благоевград">Благоевград</option>
+                <option value="Софийска област">Софийска област</option>
+                <option value="Пазарджик">Пазарджик</option>
+                <option value="Плевен">Плевен</option>
+                <option value="Хасково">Хасково</option>
+                <option value="Велико Търново">Велико Търново</option>
+                <option value="Русе">Русе</option>
+                <option value="Сливен">Сливен</option>
+                <option value="Враца">Враца</option>
+                <option value="Добрич">Добрич</option>
+                <option value="Кълджали">Кълджали</option>
+                <option value="Шумен">Шумен</option>
+                <option value="Монтана">Монтана</option>
+                <option value="Ловеч">Ловеч</option>
+                <option value="Перник">Перник</option>
+                <option value="Кюстендил">Кюстендил</option>
+                <option value="Ямбол">Ямбол</option>
+                <option value="Разград">Разград</option>
+                <option value="Търговище">Търговище</option>
+                <option value="Габрово">Габрово</option>
+                <option value="Силистра">Силистра</option>
+                <option value="Смолян">Смолян</option>
+                <option value="Видин">Видин</option>
+            </select>
+        </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Община:</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" name="municipality" value="" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Град/Село(Пише се само името на населеното място(не се пише град/село)!):</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" name="cityVillage" value="" />
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <label class="col-sm-3 col-form-label">Да се покажат всички книги,отговарящи на търсенето,независимо дали в момента има взет от читател екземпляр:</label>
+        <div class="col-sm-6">
+            <input type="radio" name="isAvaiable" value="ДА"/>САМО НАЛИЧНИ
+            <input type="radio" name="isAvaiable" value="НЕ" checked />ВСИЧКИ
+        </div>
+    </div>
+
+    <p style="color:green;position:absolute;right:100px;">Натисни върху адреса и виж къде се намира библиотеката.</p>
+    <br />
+        <table class="table" id="myTable" style="width:100%;">
+            <thead>
+                <tr>
+                    <th>Заглавие</th>
+                    <th>Автор</th>
+                    <th>Година на издаване</th>
+                    <th>Налична ли е в момента?</th>
+                    <th>Библиотека</th>
+                    <th>град/село</th>
+                    <th>Община</th>
+                    <th>Област</th>
+                    <th>Адрес</th>
+                    <th>Имейл</th>
+                    <th>Телефон</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < BookSearchModel.listBooks.Count; i++)
+                {
+                    <tr>
+                            <td>@BookSearchModel.listBooks[i].Title</td>
+                            <td>@BookSearchModel.listBooks[i].Author</td>
+                            <td>@BookSearchModel.listBooks[i].Year</td>
+                            <td>@BookSearchModel.listBooks[i].IsAvaiable</td>
+                            <td>@BookSearchModel.listLibraries[i].Name</td>
+                            <td>@BookSearchModel.listLibraries[i].CityVillage</td>
+                            <td>@BookSearchModel.listLibraries[i].Municipality</td>
+                            <td>@BookSearchModel.listLibraries[i].District</td>
+                            <td>
+                                <a href=@BookSearchModel.addresses[i]>@BookSearchModel.listLibraries[i].Address</a>
+                            </td>
+                            <td>@BookSearchModel.listLibraries[i].Email</td>
+                            <td>@BookSearchModel.listLibraries[i].Telephone</td>
+                        </tr>                    
+                }
+            </tbody>
+        </table>
+
+        <div class="offset-sm-3 col-sm-3 d-grid" style="margin-bottom:110px;">
+            <div class="offset-sm-3 col-sm-3 d-grid" id="firstButton">
+                <button type="submit" class="btn btn-primary" style="position: absolute;left: 100px;width: 40%;">ПРОВЕРИ</button>
+            </div>
+            <div class="col-sm-3 d-grid" id="cleanButton">
+                <button class="btn btn-primary" onclick="Clear()" style="position: absolute;right: 100px;width: 40%; background-color:red">ИЗЧИСТИ РЕЗУЛТАТИТЕ</button>
+            </div>
+            
+            
+        </div>
+    </form>
+</body>
+
+<script>
+    function Clear() {
+        var tableHeaderRowCount = 1;
+        var table = document.getElementById("myTable");
+        var rowCount = table.rows.length;
+        for (var i = tableHeaderRowCount; i < rowCount; i++) {
+            table.deleteRow(tableHeaderRowCount);
+        }
+    }
+</script>

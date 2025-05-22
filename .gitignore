@@ -1,0 +1,47 @@
+﻿# Ignore build output
+bin/
+obj/
+
+# Ignore user-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Ignore Rider and VS Code files
+.idea/
+.vscode/
+
+# Ignore logs
+*.log
+
+# Ignore NuGet packages
+*.nupkg
+packages/
+.nuget/
+
+# Ignore configuration files with secrets
+appsettings.json
+appsettings.*.json
+
+# Ignore published output
+publish/
+*.Publish.xml
+
+# Ignore Entity Framework Core tools artifacts
+migrations/
+
+# Ignore Visual Studio folders
+.vs/
+
+# Ignore temporary files
+*.tmp
+*.bak
+*.swp
+
+# Ignore environment files
+.env
+.env.*
+
+# Ignore Test Results
+TestResults/

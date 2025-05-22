@@ -1,0 +1,131 @@
+﻿@page
+@model Library.Pages.ReaderProfileInformationModel
+@{
+    byte[] a;
+}
+
+@if (!HttpContext.Session.TryGetValue("ReaderId", out a))
+{
+    Response.Redirect("/Index");
+}
+
+<head>
+    <title>Своят профил</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
+            <div class="container">
+                <div style="text-align:left;margin-right:30px;">
+                    <img id="logo" class="image-class" src="/Logo.png" width="50" />
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation" style="text-align:right;margin:20px 20px 50px 10px;">
+                        <img id="logo" class="image-class" src="/NavMenu.png" width="30" />
+                    </button>
+                </div>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between position-absolute top-0 end-0">
+                    <ul class="navbar-nav flex-grow-1" style="font-size:larger">
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/TakenBooks">Взети книги</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/BookSearch">Намери книга</a>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/BrowseLibrary">Разгледай библиотека</a>
+                        </li>
+                        <li>
+                            <div class="dropdown" style="margin-top:5px;">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:#FAD7A0;color:black;">
+                                    Профил
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="background-color:#FAD7A0;">
+                                    <li><a class="dropdown-item" href='/ReaderProfileInformation' style="margin-right:20px;text-align:center">Информация за <br />профила</a></li>
+                                    <li><a class="dropdown-item" href='/LogoutReader' style="background-color:red;color:white">Излез от профила</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <h1 style="text-align:center;margin-top:30px;">Информация за профила ти</h1>
+    <h5 style="text-align:center;color:green">Тук можеш да видиш информацията за своя профил и да я промениш</h5>
+
+    <form method="post" style="padding:50px;margin-bottom:600px;">
+        @if (Model.successMessage.Length > 0)
+        {
+            <div class="row mb-3">
+                <div class="col-sm-9">
+                    <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                        <strong>@Model.successMessage</strong>
+                    </div>
+                </div>
+            </div>
+        }
+        @if (Model.errorMessage.Length > 0)
+        {
+            <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+                <strong>@Model.errorMessage</strong>
+            </div>
+        }
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Име:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="name" value='@LoginReaderModel.readerInfo.Name' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Фамилия:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="lastName" value='@LoginReaderModel.readerInfo.LastName' />
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Имейл:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="email" value='@LoginReaderModel.readerInfo.Email' />
+            </div>
+        </div>
+
+        <div class="row mb=3">
+            <label class="col-sm-3 col-form-label">Телефон:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="telephone" value='@LoginReaderModel.readerInfo.Telephone' />
+            </div>
+        </div>
+        <p></p>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Парола:</label>
+            <div class="col-sm-6">
+                <input type="password" class="form-control" name="password" value="@LoginReaderModel.readerInfo.Password" id="myInput" /><br><br>
+                <p style="color:red">
+                    Паролата трябва да съдържа поне:<br />
+                    -една главна и една малка буква на български и латински<br />
+                    -една цифра<br />
+                    -един специален символ (#,?,!,$,^,&,* или -)<br />
+                    -8+ символа дължина
+                </p>
+                <input type="checkbox" onclick="myFunction()" />Покажи паролата
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="offset-sm-3 col-sm-3 d-grid" style="margin-top:10px;">
+                <button type="submit" class="btn btn-primary">ПРОМЕНИ</button>
+            </div>
+            <div class="col-sm-3 d-grid">
+                <a class="btn btn-outline-primary" href='/TakenBooks' role="button" style="margin-top:10px;">ВЪРНИ СЕ НАЗАД</a>
+            </div><br />
+            <div class="col-sm-3 d-grid" style="position:center">
+                <a class="btn btn-danger btn-sm" href="/DeleteReader" style="margin-top:10px;">ИЗТРИЙ ПРОФИЛА</a>
+            </div>
+        </div>
+    </form>
+</body>

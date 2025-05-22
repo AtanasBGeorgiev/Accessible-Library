@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Atanas Georgiev">
+    <meta name="keywords" content="книга,библиотека,читател,намира,бързо,читалище,четене">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Library.styles.css" asp-append-version="true" />
+</head>
+
+@*В текущата страница е разработен шаблонен модел на визуалната структура на уеб приложението. 
+Прилага се към всяка Razor страница, но може да бъде променяна локално.*@
+
+<body style="font-family:Verdana">
+
+    <div class="container">
+        <main role="main" class="pb-3" style="width:100%">
+            <button onclick="topFunction()" id="topBtn">
+                <img src="~/scrollButton.png" width="50"/>
+                </button>
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer" style="background-color:#DCDCDC;text-align:center;">
+        <div style="color:#2ECC71;display: flex;justify-content: center;margin-bottom:25px;">
+            
+            <form method="get" >
+                <h2>Контакти</h2>
+                <table id="tableInFooter">
+                    <thead>
+                        <tr>
+                            <th>Имейл
+                            <th>Телефон</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var admin in Library.Pages.IndexModel.listAdmins)
+                        {
+                            <tr>
+                                <td>@admin.Email</td>
+                                <td>@admin.Telephone</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </form>
+        </div>
+        <div id="rightsReserved" class="container" style="color:#2ECC71;display: flex;justify-content: center;margin-bottom:10px;">
+                    <img id="logo" class="image-class" src="~/Logo.png" width="50" />
+                    &copy; 2024 - Достъпна библиотека. Всички права запазени.
+         </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

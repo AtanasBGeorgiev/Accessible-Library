@@ -1,0 +1,130 @@
+﻿@page
+@model Library.Pages.AdminBookInfoModel
+@{
+    byte[] a;
+}
+
+@if ((!HttpContext.Session.TryGetValue("SystemAdminId", out a)) && (!HttpContext.Session.TryGetValue("AdminId", out a)))
+{
+    Response.Redirect("/Index");
+}
+
+<head>
+    <title>Информация за книга</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  mb-3">
+            <div class="container">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <h1 style="text-align:center">Тук можеш да промениш информацията за тази книга</h1>
+
+    @if (Model.errorMessage.Length > 0)
+    {
+        <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+            <strong>@Model.errorMessage</strong>
+            <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+        </div>
+    }
+    @if (Model.successMessage.Length > 0)
+    {
+        <div class="row mb-3">
+            <div class="col-sm-9">
+                <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                    <strong>@Model.successMessage</strong>
+                    <a class='btn btn-primary btn-sm' href='/AdminBooksOfLibrary'>ИЗЛЕЗ ОТ ТУК</a>
+                </div>
+            </div>
+        </div>
+    }
+
+    <form method="post" style="margin-bottom:500px;">
+        <input type="hidden" name="id" value="@AdminBookInfoModel.bookInfo.Id" />
+
+        <br />
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Инвентарен номер:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="inventoryNum" value='@AdminBookInfoModel.bookInfo.InventoryNum' />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Заглавие:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="title" value='@AdminBookInfoModel.bookInfo.Title' />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Автор:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="author" value='@AdminBookInfoModel.bookInfo.Author' />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Година на издаване:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="year" value='@AdminBookInfoModel.bookInfo.Year' />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Цена (лв.):</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="price" value='@AdminBookInfoModel.bookInfo.Price' />
+            </div>
+        </div>
+        <p style="text-align:center;color:red">При въвеждането на цена използвай запетайка за отделянето на стотинки от левове(не използвай при цели суми)!Пример: 10 за цяла сума и 10,52 за дробна.</p>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Категория:</label>
+            <select class="position-absolute  start-50 translate-middle" name="category" style="width: 150px; text-align: center;">
+                <option value="@AdminBookInfoModel.bookInfo.Category">@AdminBookInfoModel.bookInfo.Category</option>
+                <option value="Литература">Литература</option>
+                <option value="Детска литература">Детска литература</option>
+                <option value="Исторически">Исторически</option>
+                <option value="Архитектура и строителство">Архитектура и строителство</option>
+                <option value="Образование">Образование</option>
+                <option value="Военно дело">Военно дело</option>
+                <option value="Информационни тхнологии">Информационни технологии</option>
+                <option value="Селско стопанство">Селско стопанство</option>
+                <option value="Биография">Биография</option>
+                <option value="Изкуство">Изкуство</option>
+                <option value="Икономика">Икономика</option>
+                <option value="Фентъзи">Фентъзи</option>
+                <option value="Други">Други</option>
+            </select>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Сигнатура:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="signature" value='@AdminBookInfoModel.bookInfo.Signature' />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Проведена инвентаризация:</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" name="inventory" value='@AdminBookInfoModel.bookInfo.Inventory' />
+            </div>
+        </div>
+        <p style="text-align:center;color:red">За да напишеш тикче, използвай клавишната комбинация ALT 251 или въведи символ по желание.</p>
+        <div class="row mb-3">
+            <label class="col-sm-3 col-form-label">Дата на създаване:</label>
+            <div class="col-sm-6">
+                <label class="col-sm-3 col-form-label">@AdminBookInfoModel.bookInfo.DateOfCreation</label>
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="offset-sm-3 col-sm-3 d-grid">
+                <button type="submit" class="btn btn-primary">ПРОМЕНИ</button>
+            </div>
+            <div class="col-sm-3 d-grid">
+                <a class="btn btn-outline-primary" href='/AdminBooksOfLibrary'>ВЪРНИ СЕ НАЗАД</a>
+            </div>
+        </div>
+    </form>
+</body>

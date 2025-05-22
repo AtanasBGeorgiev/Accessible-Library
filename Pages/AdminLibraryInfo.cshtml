@@ -1,0 +1,186 @@
+﻿@page
+@model Library.Pages.AdminLibraryInfoModel
+@{
+}
+
+<head>
+    <title>Информация за библиотека</title>
+</head>
+
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
+            <div class="container">
+                <div style="text-align:left;margin-right:30px;">
+                    <img id="logo" class="image-class" src="/Logo.png" width="50" />
+                    <button onclick="contentVisibility()" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation" style="text-align:right;margin:20px 20px 50px 10px;">
+                        <img id="logo" class="image-class" src="/NavMenu.png" width="30" />
+                    </button>
+                </div>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between position-absolute top-0 end-0">
+                    <ul class="navbar-nav flex-grow-1" style="font-size:larger">
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/AdminLibraries">Библиотеки</a>
+                        </li>
+                        <li class="nav-item">
+                            <a style="color:#2ECC71" class="nav-link" asp-page="/AdminReaders">Читатели</a>
+                        </li>
+                        @if (LoginLibraryModel.loggedAdmin.Role == "1")
+                        {
+                            <li class="nav-item">
+                                <a style="color:#2ECC71" class="nav-link" asp-page="/Admins">Администратори</a>
+                            </li>
+                            <li class="nav-item">
+                                <a style="color:#2ECC71" class="nav-link" asp-page="/AddAdmin">Нов администратор</a>
+                            </li>
+                            <li class="nav-item">
+                                <a style="color:#2ECC71" class="nav-link" asp-page="/NewVerCode">Нов код</a>
+                            </li>
+                        }
+                        <li>
+                            <div class="dropdown" style="margin-top:5px;">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" style="background-color:#FAD7A0;color:black;">
+                                    Профил
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" style="background-color:#FAD7A0;">
+                                    <li><a class="dropdown-item" href='/AdminProfileInfo' style="margin-right:20px;text-align:center;">Информация за <br /> профила</a></li>
+                                    <li><a class="dropdown-item" href='/LogoutAdmin' style="background-color:red;color:white">Излез от профила</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main id="content">
+        <h1 style="text-align:center">Информация за библиотека</h1>
+
+        @if (Model.errorMessage.Length > 0)
+        {
+            <div class='alert alert-warning alert-dismissible fade show' role='alert'>
+                <strong>@Model.errorMessage</strong>
+                <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
+            </div>
+        }
+        @if (Model.successMessage.Length > 0)
+        {
+            <div class="row mb-3">
+                <div class="col-sm-9">
+                    <div class='alert alert-success alert-dismissible fade show' role='alert'>
+                        <strong>@Model.successMessage</strong>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <form method="post" style="margin-bottom:500px;">
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Име на читалище/библиотека:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="name" value="@AdminLibraryInfoModel.libraryInfo.Name" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Град/Село:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="cityVillage" value="@AdminLibraryInfoModel.libraryInfo.CityVillage" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Община:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="municipality" value="@AdminLibraryInfoModel.libraryInfo.Municipality" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Област:</label>
+                <select class="position-absolute  start-50 translate-middle" name="district" style="width: 150px; text-align: center;">
+                    <option value="@AdminLibraryInfoModel.libraryInfo.District">@AdminLibraryInfoModel.libraryInfo.District</option>
+                    <option value="София-град">София-град</option>
+                    <option value="Пловдив">Пловдив</option>
+                    <option value="Варна">Варна</option>
+                    <option value="Бургас">Бургас</option>
+                    <option value="Стара Загора">Стара Загора</option>
+                    <option value="Благоевград">Благоевград</option>
+                    <option value="Софийска област">Софийска област</option>
+                    <option value="Пазарджик">Пазарджик</option>
+                    <option value="Плевен">Плевен</option>
+                    <option value="Хасково">Хасково</option>
+                    <option value="Велико Търново">Велико Търново</option>
+                    <option value="Русе">Русе</option>
+                    <option value="Сливен">Сливен</option>
+                    <option value="Враца">Враца</option>
+                    <option value="Добрич">Добрич</option>
+                    <option value="Кълджали">Кълджали</option>
+                    <option value="Шумен">Шумен</option>
+                    <option value="Монтана">Монтана</option>
+                    <option value="Ловеч">Ловеч</option>
+                    <option value="Перник">Перник</option>
+                    <option value="Кюстендил">Кюстендил</option>
+                    <option value="Ямбол">Ямбол</option>
+                    <option value="Разград">Разград</option>
+                    <option value="Търговище">Търговище</option>
+                    <option value="Габрово">Габрово</option>
+                    <option value="Силистра">Силистра</option>
+                    <option value="Смолян">Смолян</option>
+                    <option value="Видин">Видин</option>
+                </select>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Имейл:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="email" value="@AdminLibraryInfoModel.libraryInfo.Email" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Телефон:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="telephone" value="@AdminLibraryInfoModel.libraryInfo.Telephone" />
+                </div>
+            </div>
+
+            <p style="color:red;text-align:center">В адреса запиши и името на града/селото.</p>
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Адрес:</label>
+                <div class="col-sm-6">
+                    <input type="text" class="form-control" name="address" value="@AdminLibraryInfoModel.libraryInfo.Address" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label class="col-sm-3 col-form-label">Дата на създаване:</label>
+                <div class="col-sm-6">
+                    <label class="col-sm-3 col-form-label">@AdminLibraryInfoModel.libraryInfo.DateOfCreation</label>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="offset-sm-3 col-sm-3 d-grid" style="margin-top:10px;">
+                    <button type="submit" class="btn btn-primary">ПРОМЕНИ</button>
+                </div>
+                <div class="col-sm-3 d-grid" style="margin-top:10px;">
+                    <a class="btn btn-outline-primary" href="/AdminLibraries" role="button">ВЪРНИ СЕ НАЗАД</a>
+                </div>
+            </div>
+            <br />
+            <div class="row mb-3" style="margin-top:20px;">
+                <div class="offset-sm-3 col-sm-3 d-grid" style="background-color:forestgreen">
+                    <a class="btn btn-primary" href="/AdminBooksOfLibrary" role="button" style="color:white;background-color:forestgreen;border:none">КЪМ КНИГИТЕ НА БИБЛИОТЕКАТА</a>
+                </div>
+                <div class="col-sm-3 d-grid" style="position:center;margin-top:10px;">
+                    <a class="btn btn-danger btn-sm" href="/AdminDeleteLibrary">ИЗТРИЙ ПРОФИЛА</a>
+                </div>
+            </div>
+        </form>
+    </main>
+    
+</body>
