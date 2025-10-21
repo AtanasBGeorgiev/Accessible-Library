@@ -4,6 +4,22 @@ Notes
 -This web application is presented at BAS conferences.                    
 -It is used as a graduation project.
 
-I provide a link to Google Drive where can be found the detailed documentation of the project as well as link to the web app:
+I provide a link to Google Drive where can be found the detailed documentation of the project:
 
 https://drive.google.com/drive/folders/1T2F9Z26rXF39FiVR8Fx-Ijqj13adEyRU?usp=drive_link
+
+Link to the web app:
+http://aglibrary2-001-site1.ptempurl.com/ 
+*(Open in Google)
+
+Here is the necessary information about the web app:
+To unlock the web app
+user name: 11240358
+password: 60-dayfreetrial
+Reader login data
+user name: ip@gmail.com
+password: 89dLx2$эваЖЯф34
+(Search for Под игото)
+Librarian login data
+user name: sofialib@gmail.com
+password: 23dK56$9ваЙ
