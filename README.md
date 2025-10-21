@@ -9,7 +9,7 @@ I provide a link to Google Drive where can be found the detailed documentation o
 https://drive.google.com/drive/folders/1T2F9Z26rXF39FiVR8Fx-Ijqj13adEyRU?usp=drive_link
 
 Link to the web app:
-http://aglibrary2-001-site1.ptempurl.com/ 
+http://aglibrary2-001-site1.ptempurl.com/  
 *(Open in Google)
 
 Here is the necessary information about the web app:  
