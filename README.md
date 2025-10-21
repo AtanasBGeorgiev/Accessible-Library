@@ -12,14 +12,14 @@ Link to the web app:
 http://aglibrary2-001-site1.ptempurl.com/ 
 *(Open in Google)
 
-Here is the necessary information about the web app:
-To unlock the web app
-user name: 11240358
-password: 60-dayfreetrial
-Reader login data
-user name: ip@gmail.com
-password: 89dLx2$эваЖЯф34
-(Search for Под игото)
-Librarian login data
-user name: sofialib@gmail.com
-password: 23dK56$9ваЙ
+Here is the necessary information about the web app:  
+To unlock the web app  
+user name: 11240358  
+password: 60-dayfreetrial  
+Reader login data  
+user name: ip@gmail.com  
+password: 89dLx2$эваЖЯф34  
+(Search for Под игото)  
+Librarian login data  
+user name: sofialib@gmail.com  
+password: 23dK56$9ваЙ  
